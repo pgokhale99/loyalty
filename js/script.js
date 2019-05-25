@@ -44,7 +44,11 @@ $j( document ).ready(function() {
             $j('.error').html(json.error);
           }
           else if(json.code == 401){
-            alert("Forbidden error. Please resubmit.");
+              var sMsg = "Forbidden error. Please resubmit.";
+              tmp = document.getElementById('contacterror');
+              if(tmp!==null){
+                      tmp.innerHTML = sMsg;
+              }
           }
           else if(json.code == 503){
               alert("Service call error. Please resubmit.");
