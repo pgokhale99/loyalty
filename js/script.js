@@ -72,7 +72,7 @@ function submitForm(submit){
 
                     tmp = document.getElementById('varinput');
                     if(tmp!==null){
-                        tmp.innerHTML = vfirstname + ' <br> ' + vlastname+ ' <br> ' + vemail+ ' <br> ' + vphone+ ' <br> ' + vcity
+                        tmp.innerHTML = '<span style=\'color:blue\'>Feedback Loop</span>' + '<br>' + vfirstname + ' <br> ' + vlastname+ ' <br> ' + vemail+ ' <br> ' + vphone+ ' <br> ' + vcity
                             + '<br>' + vlat + '<br>' + vlong + '<br>' + vtemp;
                     }
 
