@@ -25,6 +25,7 @@ class cDataController {
 
     public function processRequest()
     {
+
         switch ($this->requestMethod) {
             case 'GET':
                 if ($this->username) {
@@ -102,38 +103,6 @@ class cDataController {
         mysqli_close($conn);
         print json_encode($CustomerRecord);        
     }
-
-
-function getExternalValue($form_id, $visit_id) {
-
-
-    $CustomerRecord = array();
-        $con = mysqli_connect($GLOBALS['dbhost'], $GLOBALS['dbuser'], $GLOBALS['dbpass'], $GLOBALS['dbname']);
-        // Check connection
-        if (mysqli_connect_errno()) {
-            echo "Failed to connect to MySQL: " . mysqli_connect_error();
-        }
-        $sql = "SELECT * FROM `" . $GLOBALS['dbname'] . "`.`lead` WHERE form_id='" . $form_id . "' AND visit_id=" . $visit_id . " ORDER by id DESC";
-        $result = mysqli_query($con, $sql);
-        if (mysqli_num_rows($result) > 0) {
-            while ($row = mysqli_fetch_assoc($result)) {
-                if (decrypt($row['field_value']) != 'empty') 
-                {
-                 $CustomerData = array($row['field_id'],decrypt($row['field_value']),$row['date_time']);
-                 array_push($CustomerRecord,$CustomerData);
-                } 
-            }
-        }
-        mysqli_close($con);
-        return $CustomerRecord;
-
-    }
-//Your Business
-//$CustomerRecord = getExternalValue($form_id, $visit_id);
-//var_dump($CustomerRecord);
-
-
-
 
     function InsertRecord($atts, $arrresult=""){
 

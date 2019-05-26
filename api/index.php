@@ -10,11 +10,11 @@ https://maps.googleapis.com/maps/api/geocode/json?address=Toronto&key=AIzaSyCKxP
 
 */
 
-// header("Access-Control-Allow-Origin: *");
-// header("Content-Type: application/json; charset=UTF-8");
-// header("Access-Control-Allow-Methods: OPTIONS,GET,POST,PUT,DELETE");
-// header("Access-Control-Max-Age: 3600");
-// header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
+header("Access-Control-Allow-Origin: *");
+//header("Content-Type: application/json; charset=UTF-8");
+header("Access-Control-Allow-Methods: OPTIONS,GET,POST,PUT,DELETE");
+header("Access-Control-Max-Age: 3600");
+header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
 require_once('ar_constants.php');
 require_once('ar_logger.php');
@@ -33,11 +33,6 @@ if (!in_array("api",$uri)){
     exit();
 }
 
-// the username is optional
-$username = null;
-if (isset($uri[2])) {
-    $username = $uri[2];
-}
 
 $requestMethod = $_SERVER["REQUEST_METHOD"];
 
@@ -49,10 +44,19 @@ $atts = $objInput->getUserInputParams('POST');
 // echo 'username-url:' . $username;
 // echo print_r($atts);
 
-$username = $_GET['FirstName'];
+//if (empty($username))
 
+// the username is optional/from URI
+// $username = null;
+// if (isset($uri[2])) {
+//     $username = $uri[2];
+// }
+
+$username = $_GET['FirstName']; //for GET request, POST is derived from $atts
 $objDataController = new cDataController($requestMethod, $username, $atts);
 $objDataController->processRequest();
+
+// $ar_user_postal    = !empty($ar_postal) ? $ar_postal : $ar_user_postal;
 
 //$objDataController = new cDataController('GET', 'ere', $atts);
 //$objDataController->processRequest();
@@ -65,7 +69,7 @@ if ( !empty($atts['v_city']) )
     $latitude = $t[0];
     $longitude = $t[1];
 
-    //echo json_encode($objHelper->geocode('Toronto'));
+    //echo json_encode($ob$requestMethodjHelper->geocode('Toronto'));
     $t = $objHelper->geoTemperature($latitude, $longitude);
     $temperature = $t[0];
 }
@@ -79,12 +83,12 @@ if ( empty($atts['v_firstname']) && empty($username) )
     "form"     : "contact-form"
   }';
 }
-else {
+elseif ($requestMethod == 'POST') {
   echo '{
     "code" : 200,
     "v_firstname" : "'. $atts['v_firstname'] .'",
     "v_lastname" : "'. $atts['v_lastname'] .'",
-    "v_email" : "'. $atts['v_email'] .'",
+    "v_email" : "'.  $atts['v_email'] .'",
     "v_phone" : "'. $atts['v_phone'] .'",
     "v_city" : "'. $atts['v_city'] .'",
     "v_lat" : "'. $latitude .'",
@@ -93,3 +97,5 @@ else {
  }';
 
 }
+
+?>
