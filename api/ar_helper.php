@@ -103,41 +103,54 @@ function CreateGUID() {
 //https://weather.cit.api.here.com/weather/1.0/report.json?product=observation&latitude=52.516&longitude=13.389&oneobservation=true&app_id=D5exNs3PTzRoiQMSZCMl&app_code=BTtstViIGClKv3diMc9_-g
 
 function geoTemperature($lat, $long)
-{
+{/*
 
-/*
-
-$url = "https://weather.cit.api.here.com/weather/1.0/report.json?product=observation&latitude=52.516&longitude=13.389&oneobservation=true&app_id=D5exNs3PTzRoiQMSZCMl&app_code=BTtstViIGClKv3diMc9_-g";
+        $url = "https://weather.cit.api.here.com/weather/1.0/report.json?product=observation&latitude=52.516&longitude=13.389&oneobservation=true&app_id=D5exNs3PTzRoiQMSZCMl&app_code=BTtstViIGClKv3diMc9_-g";
 
 
-example call: geoTemperature('52.516', '13.389');
+        example call: geoTemperature('52.516', '13.389');
 
-Array ( [observations] => 
-    Array ( [location] => 
-        Array ( [0] =>
-            Array ( [observation] => 
-                Array ( [0] => 
-                    Array ( [daylight] => N [description] => Passing clouds. Cool. [skyInfo] => 7 [skyDescription] => Passing clouds [temperature] => 10.00 [temperatureDesc] => Cool [comfort] => 8.18 [highTemperature] => 19.90 [lowTemperature] => 9.70 [humidity] => 76 [dewPoint] => 6.00 [precipitation1H] => * [precipitation3H] => * [precipitation6H] => * [precipitation12H] => * [precipitation24H] => * [precipitationDesc] => [airInfo] => * [airDescription] => [windSpeed] => 12.97 [windDirection] => 260 [windDesc] => West [windDescShort] => W [barometerPressure] => 1015.24 [barometerTrend] => [visibility] => * [snowCover] => * [icon] => 14 [iconName] => night_mostly_clear [iconLink] => https://weather.cit.api.here.com/static/weather/icon/23.png [ageMinutes] => 25 [activeAlerts] => 0 [country] => Germany [state] => Berlin [city] => Unter den Linden [latitude] => 52.5178 [longitude] => 13.3874 [distance] => 7.65 [elevation] => 0 [utcTime] => 2019-05-26T00:50:00.000+02:00 ) ) [country] => Germany [state] => Berlin [city] => Unter den Linden [latitude] => 52.51784 [longitude] => 13.38736 [distance] => 0.23 [timezone] => 1 ) ) ) [feedCreation] => 2019-05-25T23:15:27.708Z [metric] => 1 ) 
-*/
+        Array ( [observations] => 
+            Array ( [location] => 
+                Array ( [0] =>
+                    Array ( [observation] => 
+                        Array ( [0] => 
+                            Array ( [daylight] => N [description] => Passing clouds. Cool. [skyInfo] => 7 [skyDescription] => Passing clouds [temperature] => 10.00 [temperatureDesc] => Cool [comfort] => 8.18 [highTemperature] => 19.90 [lowTemperature] => 9.70 [humidity] => 76 [dewPoint] => 6.00 [precipitation1H] => * [precipitation3H] => * [precipitation6H] => * [precipitation12H] => * [precipitation24H] => * [precipitationDesc] => [airInfo] => * [airDescription] => [windSpeed] => 12.97 [windDirection] => 260 [windDesc] => West [windDescShort] => W [barometerPressure] => 1015.24 [barometerTrend] => [visibility] => * [snowCover] => * [icon] => 14 [iconName] => night_mostly_clear [iconLink] => https://weather.cit.api.here.com/static/weather/icon/23.png [ageMinutes] => 25 [activeAlerts] => 0 [country] => Germany [state] => Berlin [city] => Unter den Linden [latitude] => 52.5178 [longitude] => 13.3874 [distance] => 7.65 [elevation] => 0 [utcTime] => 2019-05-26T00:50:00.000+02:00 ) ) [country] => Germany [state] => Berlin [city] => Unter den Linden [latitude] => 52.51784 [longitude] => 13.38736 [distance] => 0.23 [timezone] => 1 ) ) ) [feedCreation] => 2019-05-25T23:15:27.708Z [metric] => 1 ) 
+        */
 
-$geokey = "D5exNs3PTzRoiQMSZCMl&app_code=BTtstViIGClKv3diMc9_-g";
-$url = "https://weather.cit.api.here.com/weather/1.0/report.json?product=observation&latitude=$lat&longitude=$long&oneobservation=true&app_id=$geokey";
+        /*
 
-//echo 'url:' . $url;
+        $url = "https://weather.cit.api.here.com/weather/1.0/report.json?product=observation&latitude=52.516&longitude=13.389&oneobservation=true&app_id=D5exNs3PTzRoiQMSZCMl&app_code=BTtstViIGClKv3diMc9_-g";
 
-$resp_json = file_get_contents($url);
-$resp = json_decode($resp_json, true);
-$temperature = $resp['observations']['location'][0]['observation'][0]['temperature'] ;
 
-// put the data in the array
-$data_arr = array();            
-                 
-array_push(
-    $data_arr, 
-    $temperature 
-);
+        example call: geoTemperature('52.516', '13.389');
 
-return $data_arr;
+        Array ( [observations] => 
+            Array ( [location] => 
+                Array ( [0] =>
+                    Array ( [observation] => 
+                        Array ( [0] => 
+                            Array ( [daylight] => N [description] => Passing clouds. Cool. [skyInfo] => 7 [skyDescription] => Passing clouds [temperature] => 10.00 [temperatureDesc] => Cool [comfort] => 8.18 [highTemperature] => 19.90 [lowTemperature] => 9.70 [humidity] => 76 [dewPoint] => 6.00 [precipitation1H] => * [precipitation3H] => * [precipitation6H] => * [precipitation12H] => * [precipitation24H] => * [precipitationDesc] => [airInfo] => * [airDescription] => [windSpeed] => 12.97 [windDirection] => 260 [windDesc] => West [windDescShort] => W [barometerPressure] => 1015.24 [barometerTrend] => [visibility] => * [snowCover] => * [icon] => 14 [iconName] => night_mostly_clear [iconLink] => https://weather.cit.api.here.com/static/weather/icon/23.png [ageMinutes] => 25 [activeAlerts] => 0 [country] => Germany [state] => Berlin [city] => Unter den Linden [latitude] => 52.5178 [longitude] => 13.3874 [distance] => 7.65 [elevation] => 0 [utcTime] => 2019-05-26T00:50:00.000+02:00 ) ) [country] => Germany [state] => Berlin [city] => Unter den Linden [latitude] => 52.51784 [longitude] => 13.38736 [distance] => 0.23 [timezone] => 1 ) ) ) [feedCreation] => 2019-05-25T23:15:27.708Z [metric] => 1 ) 
+        */
+
+        $geokey = "D5exNs3PTzRoiQMSZCMl&app_code=BTtstViIGClKv3diMc9_-g";
+        $url = "https://weather.cit.api.here.com/weather/1.0/report.json?product=observation&latitude=$lat&longitude=$long&oneobservation=true&app_id=$geokey";
+
+        //echo 'url:' . $url;
+
+        $resp_json = file_get_contents($url);
+        $resp = json_decode($resp_json, true);
+        $temperature = $resp['observations']['location'][0]['observation'][0]['temperature'] ;
+
+        // put the data in the array
+        $data_arr = array();            
+                         
+        array_push(
+            $data_arr, 
+            $temperature 
+        );
+
+        return $data_arr;
 
 //echo 'resp:'. var_dump($data_arr);
 //echo "temperature:" . $temperature;
@@ -190,7 +203,7 @@ function geocode($address){
         }
      
         else{
-            echo "<strong>ERROR: {$resp['status']}</strong>";
+            echo ""; //echo "<strong>ERROR: {$resp['status']}</strong>";
             return false;
         }
     }

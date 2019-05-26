@@ -25,6 +25,7 @@ require_once('ar_datacontroller.php');
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $uri = explode( '/', $uri );
 
+
 // all of our endpoints start with /api
 //if ($uri[1] !== 'api') {
 if (!in_array("api",$uri)){
@@ -48,27 +49,28 @@ $atts = $objInput->getUserInputParams('POST');
 // echo 'username-url:' . $username;
 // echo print_r($atts);
 
-$objDataController = new cDataController('GET', 'ere', $atts);
-echo $objDataController->processRequest();
+$username = $_GET['FirstName'];
 
-// $objDataController = new cDataController($requestMethod, $username, $atts);
-// echo $objDataController->processRequest();
+$objDataController = new cDataController($requestMethod, $username, $atts);
+$objDataController->processRequest();
 
-//$objHelper->InsertRecord($atts, "");
-//echo 'atts:' . print_r($atts);
+//$objDataController = new cDataController('GET', 'ere', $atts);
+//$objDataController->processRequest();
 
-$objHelper = new cHelper();
+if ( !empty($atts['v_city']) )
+{
+    //Get lat, long, temperature
+    $objHelper = new cHelper();
+    $t = $objHelper->geocode($atts['v_city']);
+    $latitude = $t[0];
+    $longitude = $t[1];
 
-$t = $objHelper->geocode('Toronto');
-$latitude = $t[0];
-$longitude = $t[1];
+    //echo json_encode($objHelper->geocode('Toronto'));
+    $t = $objHelper->geoTemperature($latitude, $longitude);
+    $temperature = $t[0];
+}
 
-echo json_encode($objHelper->geocode('Toronto'));
-$t = $objHelper->geoTemperature($latitude, $longitude);
-$temperature = $t[0];
-
-
-if ( empty($atts['v_firstname']) )
+if ( empty($atts['v_firstname']) && empty($username) )
 {
   echo '{
     "code" : 401,

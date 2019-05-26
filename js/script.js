@@ -1,15 +1,77 @@
 
 var $j = jQuery.noConflict();
 
+function submitForm(submit){
+    if(submit.value=="Fetch")
+    {
+          $j.ajax({
+            url    : apiurl.ajax_url,
+            type   : 'GET',
+            data   : "&FirstName="+$j("#idFirstName").val(),
+            success: function( response ) {
+              console.log(response);
+              var json = $j.parseJSON( response );
+              console.log("person:" + json); 
+              //$j('#ar-person').val(json.VehDesc.vehcode_ext);
+            }
+          });
+    }else if(submit.value == "Done"){
+            //ajax for POST
+            // $j.ajax({
+            //     url    : apiurl.ajax_url,
+            //     type   : 'POST',
+            //     data   : $j('#formcontact').serialize(),
+            //     success: function( response ) {
+            //       var json = $j.parseJSON( response );
+            //       //console.log(json);
+            //       if (json.code == 200){
+
+            //         var vfirstname = "FirstName: " + json.v_firstname;
+            //         var vlastname = "LastName: " + json.v_lastname;
+            //         var vemail = "Email: " + json.v_email;
+            //         var vphone = "Phone: " + json.v_phone;
+            //         var vcity = "City: " + json.v_city;
+            //         var vlat = "Latitude: " + json.v_lat;
+            //         var vlong = "Longitude: " + json.v_long;
+            //         var vtemp = "Temperature: " + json.v_temp;
+
+            //         tmp = document.getElementById('varinput');
+            //         if(tmp!==null){
+            //             tmp.innerHTML = vfirstname + ' <br> ' + vlastname+ ' <br> ' + vemail+ ' <br> ' + vphone+ ' <br> ' + vcity
+            //                 + '<br>' + vlat + '<br>' + vlong + '<br>' + vtemp + ' deg.';
+            //         }
+
+            //         $j('.error').html(json.error);
+            //       }
+            //       else if(json.code == 401){
+            //           var sMsg = "Forbidden error. Please resubmit.";
+            //           tmp = document.getElementById('contacterror');
+            //           if(tmp!==null){
+            //                   tmp.innerHTML = sMsg;
+            //           }
+            //       }
+            //       else if(json.code == 503){
+            //           alert("Service call error. Please resubmit.");
+            //       }
+            //     },
+            //     error: function(request, err) {
+            //         if (status == "timeout") {
+            //             alert("failed");
+            //         } else {
+            //             // another error occured  
+            //             alert("error: " + request + status + err);
+            //         }
+            //     }
+            //   }); // POST call
+    } 
+}
+
 $j( document ).ready(function() {
 
   $j('#formcontact').on('submit', function(e){
 
     arfn = "FirstName: " + $j("#idFirstName").val();
-    arln = "LastName: " + $j("#idLastName").val();
-    aremail = "Email: " + $j("#idEmail").val();
-    arph = "Phone: " + $j("#idPhone").val();
-    arcity = "City: " + $j("#idCity").val();
+    // arcity = "City: " + $j("#idCity").val();
 
     if(arfn.trim()==""){
 
@@ -20,27 +82,40 @@ $j( document ).ready(function() {
       }
     }
 
-    alert('AB');
     e.preventDefault();
 
-    tmp = document.getElementById('varinput');
-    if(tmp!==null){
-        tmp.innerHTML = arfn + ' <br> ' + arln+ ' <br> ' + aremail+ ' <br> ' + arph+ ' <br> ' + arcity;
-    }
-
+    //ajax for POST
     $j.ajax({
         url    : apiurl.ajax_url,
-        type   : 'post',
+        type   : 'POST',
         data   : $j('#formcontact').serialize(),
         success: function( response ) {
-          var json = $j.parseJSON( response );
+
+          if(response) {
+              try {
+                  var json = $j.parseJSON(response);
+              } catch(e) {
+                  alert(e); // error in the above string (in this case, yes)!
+              }
+          }
           console.log(json);
           if (json.code == 200){
 
-            var vfirstname = json.v_firstname;
-            var vlastname = json.v_lastname;
-            $j('.vfirstname').html(vfirstname);
-            $j('.vlastname').html(vlastname);
+            var vfirstname = "FirstName: " + json.v_firstname;
+            var vlastname = "LastName: " + json.v_lastname;
+            var vemail = "Email: " + json.v_email;
+            var vphone = "Phone: " + json.v_phone;
+            var vcity = "City: " + json.v_city;
+            var vlat = "Latitude: " + json.v_lat;
+            var vlong = "Longitude: " + json.v_long;
+            var vtemp = "Temperature (deg.): " + json.v_temp;
+
+            tmp = document.getElementById('varinput');
+            if(tmp!==null){
+                tmp.innerHTML = vfirstname + ' <br> ' + vlastname+ ' <br> ' + vemail+ ' <br> ' + vphone+ ' <br> ' + vcity
+                    + '<br>' + vlat + '<br>' + vlong + '<br>' + vtemp;
+            }
+
             $j('.error').html(json.error);
           }
           else if(json.code == 401){
@@ -53,11 +128,6 @@ $j( document ).ready(function() {
           else if(json.code == 503){
               alert("Service call error. Please resubmit.");
           }
-
-          //else {
-            //$j('#formcontact').html(json.message); //display error
-          //}
-          //$j('#formcontact').html( response );
         },
         error: function(request, err) {
             if (status == "timeout") {
@@ -67,8 +137,10 @@ $j( document ).ready(function() {
                 alert("error: " + request + status + err);
             }
         }
-    });
+      }); // POST call
 
   });
+
+
 
 });

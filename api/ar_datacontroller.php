@@ -42,7 +42,6 @@ class cDataController {
                 break;
             case 'POST':
                 $repsonse = $this->InsertRecord($this->atts, "");
-                echo "insert:" . $response;
                 break;
             case 'PUT':
                 $response = $this->notFoundResponse();
