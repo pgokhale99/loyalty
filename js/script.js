@@ -35,18 +35,20 @@ function submitForm(submit){
                           }
 
                           htmlText += '<div class="row">';
-                          htmlText += '<div class="column" style="background-color:#aaa;">FirstName: ' + json[key][1].split(":")[1] + '</div>';
-                          htmlText += '<div class="column" style="background-color:#bbb;">LastName: ' + json[key][2].split(":")[1] + '</div>';
-                          htmlText += '<div class="column" style="background-color:#ccc;">Id: ' + json[key][0].split(":")[1] + '</div>';
+                          htmlText += '<div class="column" style="background-color:#aaa;">' + json[key][1].split(":")[1] + '</div>';
+                          htmlText += '<div class="column" style="background-color:#bbb;">' + json[key][2].split(":")[1] + '</div>';
+                          htmlText += '<div class="column" style="background-color:#ccc;">' + json[key][0].split(":")[1] + '</div>';
                           htmlText += '</div>';
                       }
 
                       tmp.innerHTML = htmlText;
 
+                      $(this).closest('form').find("input[type=text], textarea").val("");
+
 
                   } catch(e) {
-                      aldivrt(e); // error in the above string (in this case, yes)!
-               div  }
+                      alert(e); // error in the above string (in this case, yes)!
+                }
               }
             }
           });
