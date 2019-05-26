@@ -21,13 +21,33 @@ function submitForm(submit){
               
               if(response) {
                   try {
-                      tmp.innerHTML = response;
+                      
+                      //tmp.innerHTML = response
+                       var htmlText = "";
+                      for ( var key in json ) {
+                          
+                          if (key==0){
+                            htmlText += '<div class="row">';
+                            htmlText += '<div class="column" style="background-color:#000000;">FirstName</div>';
+                            htmlText += '<div class="column" style="background-color:#000000;">LastName</div>';
+                            htmlText += '<div class="column" style="background-color:#000000;">Id</div>';
+                            htmlText += '</div>';
+                          }
+
+                          htmlText += '<div class="row">';
+                          htmlText += '<div class="column" style="background-color:#aaa;">FirstName: ' + json[key][1].split(":")[1] + '</div>';
+                          htmlText += '<div class="column" style="background-color:#bbb;">LastName: ' + json[key][2].split(":")[1] + '</div>';
+                          htmlText += '<div class="column" style="background-color:#ccc;">Id: ' + json[key][0].split(":")[1] + '</div>';
+                          htmlText += '</div>';
+                      }
+
+                      tmp.innerHTML = htmlText;
+
+
                   } catch(e) {
-                      alert(e); // error in the above string (in this case, yes)!
-                  }
+                      aldivrt(e); // error in the above string (in this case, yes)!
+               div  }
               }
-
-
             }
           });
     }else if(submit.value == "Done"){

@@ -53,8 +53,11 @@ $atts = $objInput->getUserInputParams('POST');
 // }
 
 $username = $_GET['FirstName']; //for GET request, POST is derived from $atts
-$objDataController = new cDataController($requestMethod, $username, $atts);
-$objDataController->processRequest();
+if ( ($requestMethod == 'POST') || ( ($requestMethod == 'GET')  && !empty($username) ) )
+{
+  $objDataController = new cDataController($requestMethod, $username, $atts);
+  $objDataController->processRequest();
+}
 
 // $ar_user_postal    = !empty($ar_postal) ? $ar_postal : $ar_user_postal;
 

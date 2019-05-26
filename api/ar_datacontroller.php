@@ -93,7 +93,7 @@ class cDataController {
         if (mysqli_num_rows($result) > 0) {
             while($row = mysqli_fetch_assoc($result)) {
                 //echo "id: " . $row["id"]. " - Name: " . $row["firstname"]. " " . $row["lastname"]. PHP_EOL;
-                $CustomerData = array($row['id'],$row['firstname'],$row['lastname']);
+                $CustomerData = array("id:" . $row['id'], "firstname:" . $row['firstname'], "lastname:" . $row['lastname']);
                 array_push($CustomerRecord,$CustomerData);
             }
         } else {
