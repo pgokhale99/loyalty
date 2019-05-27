@@ -1,6 +1,6 @@
 <?php
 
-include('../api/index.php');
+include('./api/index.php');
 
 use PHPUnit\Framework\TestCase;
 
