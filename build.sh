@@ -1,1 +1,1 @@
-phpunit ./test/test
+phpunit ./test/indexTest
