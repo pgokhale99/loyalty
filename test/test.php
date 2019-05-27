@@ -1,5 +1,6 @@
 <?php
 use PHPUnit\Framework\TestCase;
+include('../api/index.php');
 
 class StackTest extends TestCase
 {
@@ -12,6 +13,6 @@ class StackTest extends TestCase
     }
 
     public function test_incorrectRequestURL_responseIs404() {
-        $this->assertTrue(true);
+        receive_request("hello");
     }
 }

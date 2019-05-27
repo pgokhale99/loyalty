@@ -22,61 +22,95 @@ require_once('ar_helper.php');
 require_once('ar_inputclass.php');
 require_once('ar_datacontroller.php');
 
-$uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-$uri = explode( '/', $uri );
+function geodata($city)
+{
+
+  if ( !empty($city) )
+  {
+      //Get lat, long, temperature
+      $objHelper = new cHelper();
+      $t = $objHelper->geocode($city);
+      $latitude = $t[0];
+      $longitude = $t[1];
+
+      return array($latitude, $longitude);
+  }
+
+  return array();
+
+}
 
 
-function receiveRequest($uri) {
+function geotemperature($lat, $long)
+{
+
+  if ( !empty($lat) && !empty($long) )
+  {
+      $objHelper = new cHelper();
+      $t = $objHelper->geoTemperature($lat, $long);
+      $temperature = $t[0];
+      return $temperature;
+  }
+
+  return "";
+
+}
+
+
+function receiveRequest($uri, $requestMethod, $username) {
+  $response = "";
   // all of our endpoints start with /api
   //if ($uri[1] !== 'api') {
   if (!in_array("api",$uri)){
-      header("HTTP/1.1 403 Not Found");
-      exit();
+      header("HTTP/1.1 200 Not Found");
+      $response = '{
+      "code" : 404,
+      "message"  : "Not Found"
+    }';
+      //echo 'hello';
+      echo $response;
+      return;
   }
 
-
-  $requestMethod = $_SERVER["REQUEST_METHOD"];
 
   //***** GET PARAMS ***/
   $objInput = new cGetInput();
   $atts = $objInput->getUserInputParams('POST');
-
-  // echo 'ReqMethod:' . $requestMethod;
-  // echo 'username-url:' . $username;
-  // echo print_r($atts);
-
-  //if (empty($username))
-
   // the username is optional/from URI
   // $username = null;
   // if (isset($uri[2])) {
   //     $username = $uri[2];
   // }
 
-  $username = $_GET['FirstName']; //for GET request, POST is derived from $atts
+  //$username = $_GET['FirstName']; //for GET request, POST is derived from $atts
   if ( ($requestMethod == 'POST') || ( ($requestMethod == 'GET')  && !empty($username) ) )
   {
     $objDataController = new cDataController($requestMethod, $username, $atts);
-    $objDataController->processRequest();
+    $result = $objDataController->processRequest();
+    //echo $result;
   }
-
-  // $ar_user_postal    = !empty($ar_postal) ? $ar_postal : $ar_user_postal;
-
-  //$objDataController = new cDataController('GET', 'ere', $atts);
-  //$objDataController->processRequest();
 
   if ( !empty($atts['v_city']) )
   {
-      //Get lat, long, temperature
-      $objHelper = new cHelper();
-      $t = $objHelper->geocode($atts['v_city']);
+
+      $t = geodata($atts['v_city']);
       $latitude = $t[0];
       $longitude = $t[1];
 
-      //echo json_encode($ob$requestMethodjHelper->geocode('Toronto'));
-      $t = $objHelper->geoTemperature($latitude, $longitude);
-      $temperature = $t[0];
+      $temperature = geoTemperature($latitude, $longitude);
+
+      // //Get lat, long, temperature
+      // $objHelper = new cHelper();
+      // $t = $objHelper->geocode($atts['v_city']);
+      // $latitude = $t[0];
+      // $longitude = $t[1];
+
+      // $t = $objHelper->geoTemperature($latitude, $longitude);
+      // $temperature = $t[0];
   }
+
+
+
 
   if ( empty($atts['v_firstname']) && empty($username) )
   {
@@ -103,5 +137,13 @@ function receiveRequest($uri) {
   }
 } 
 
-receiveRequest($uri);
+$uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+$uri = explode( '/', $uri );
+
+
+$requestMethod = $_SERVER["REQUEST_METHOD"];
+$username = $_GET['FirstName'];
+
+$response = receiveRequest($uri, $requestMethod, $username);
+
 ?>

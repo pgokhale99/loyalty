@@ -25,6 +25,7 @@ class cDataController {
 
     public function processRequest()
     {
+        $response = array();
 
         switch ($this->requestMethod) {
             case 'GET':
@@ -57,7 +58,7 @@ class cDataController {
 
         header($response['status_code_header']);
         if ($response['body']) {
-            echo $response['body'];
+            return $response['body'];
         }
     }
 
@@ -96,12 +97,18 @@ class cDataController {
                 $CustomerData = array("id:" . $row['id'], "firstname:" . $row['firstname'], "lastname:" . $row['lastname']);
                 array_push($CustomerRecord,$CustomerData);
             }
+            print json_encode($CustomerRecord); 
         } else {
-            echo "0 results";
+            return '{
+              "code" : 200,
+              "message"  : "No results",
+              "location" : "data controller",
+              "form"     : "contact-form"
+            }';
         }
 
         mysqli_close($conn);
-        print json_encode($CustomerRecord);        
+               
     }
 
     function InsertRecord($atts, $arrresult=""){
@@ -154,7 +161,7 @@ class cDataController {
              echo("SQL Error 1: " . $s_err . ' -' . mysqli_error($con));
         }
 
-        mysqli_close();
+        mysqli_close($con);
 
 
         $response['status_code_header'] = 'HTTP/1.1 201 Created';

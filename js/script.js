@@ -16,12 +16,12 @@ function submitForm(submit){
             data   : "&FirstName="+$j("#idFirstName").val(),
             success: function( response ) {
               console.log(response);
-              var json = $j.parseJSON( response );
-              console.log("person:" + json); 
               
-              if(response) {
+              if(response.trim()) {
                   try {
-                      
+                      var json = $j.parseJSON( response );
+                      console.log("person:" + json); 
+                                    
                       //tmp.innerHTML = response
                        var htmlText = "";
                       for ( var key in json ) {
@@ -49,6 +49,10 @@ function submitForm(submit){
                   } catch(e) {
                       alert(e); // error in the above string (in this case, yes)!
                 }
+              }
+              else{
+
+                tmp.innerHTML = "No records found";
               }
             }
           });
@@ -107,7 +111,7 @@ $j( document ).ready(function() {
 
   $j('#formcontact').on('submit', function(e){
 
-    arfn = "FirstName: " + $j("#idFirstName").val();
+    arfn = $j("#idFirstName").val();
     // arcity = "City: " + $j("#idCity").val();
 
     if(arfn.trim()==""){
